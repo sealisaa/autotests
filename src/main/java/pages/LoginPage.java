@@ -9,9 +9,9 @@ import utils.User;
 
 public class LoginPage extends BasePage {
 
-    private final String LOGIN_FIELD = "//input[@id='field_email']";
-    private final String PASSWORD_FIELD = "//input[@id='field_password']";
-    private final String SUBMIT_BUTTON = "//*[@class='login-form-actions']/input[@type='submit']";
+    private static final String LOGIN_FIELD = "//input[@id='field_email']";
+    private static final String PASSWORD_FIELD = "//input[@id='field_password']";
+    private static final String SUBMIT_BUTTON = "//*[@class='login-form-actions']/input[@type='submit']";
 
     public LoginPage() {
         open("http://ok.ru");
