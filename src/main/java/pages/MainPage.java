@@ -1,14 +1,13 @@
 package pages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage extends BasePage {
     private static final String NAME_FIELD = "//a[contains(@class, 'nav-side_i') and contains(@data-l, 'userPage')]";
-    private static final String MUSIC_BUTTON = "//*[@id='hook_Block_MusicToolbarButton']";;
+    private static final String MUSIC_BUTTON = "//*[@id='hook_Block_MusicToolbarButton']";
 
     public MainPage() {
         check();
@@ -24,6 +23,6 @@ public class MainPage extends BasePage {
     }
 
     protected void check() {
-        $(byXpath(NAME_FIELD)).shouldBe(Condition.visible);
+        $(byXpath(NAME_FIELD)).shouldBe(Condition.visible.because("Не отображаются имя и фамилия пользователя"));
     }
 }

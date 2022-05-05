@@ -11,7 +11,6 @@ public class MusicPage extends BasePage {
     private static final String PLAYING_MUSIC_TITLE = "//wm-player-track//span[@class='name']";
     private static final String PLAYING_MUSIC_ARTIST = "//wm-player-track//span[@class='artist']";
     private static final String MUSIC_SEARCH_INPUT = "//header//wm-search-input/input";
-    private final String MUSIC_RECOMMENDATIONS_BUTTON = ".//a[@data-l='t,showcase']";
 
     public MusicPage() {
         check();
@@ -22,8 +21,7 @@ public class MusicPage extends BasePage {
     }
 
     public void playMusic(String input) {
-        $(byXpath(MUSIC_SEARCH_INPUT)).shouldBe(Condition.visible);
-        $(byXpath(MUSIC_SEARCH_INPUT)).setValue(input).pressEnter();
+        $(byXpath(MUSIC_SEARCH_INPUT)).shouldBe(Condition.visible.because("Не отображается поле для поиска музыки")).setValue(input).pressEnter();
         $$(byXpath(MUSIC_TRACKS)).get(0).click();
     }
 

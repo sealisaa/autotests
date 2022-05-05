@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MusicTest extends BaseTest {
     private final User user = UserData.user;
-    private final String musicSearchInput = "Oshhh";
 
     @Test
-    void loginTest() {
+    void musicTest() {
         MainPage mainPage = loginPage.login(user);
         MusicPage musicPage = mainPage.goToMusic();
+        String musicSearchInput = "Oshhh";
         musicPage.playMusic(musicSearchInput);
         assertTrue(musicPage.getPlayingMusicTitle().toLowerCase().contains(musicSearchInput.toLowerCase())
                 || musicPage.getPlayingMusicArtist().toLowerCase().contains(musicSearchInput.toLowerCase()));
