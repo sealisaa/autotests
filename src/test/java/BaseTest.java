@@ -5,12 +5,12 @@ import pages.LoginPage;
 import static com.codeborne.selenide.Selenide.*;
 
 public abstract class BaseTest {
-    static LoginPage loginPage;
+
+    private static final String okUrl = "http://ok.ru";
 
     @BeforeAll
     static void setup() {
-        open("http://ok.ru");
-        loginPage = new LoginPage();
+        open(okUrl);
     }
 
     @AfterAll
