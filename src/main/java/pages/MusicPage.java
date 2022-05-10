@@ -10,7 +10,10 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class MusicPage extends BasePage {
-    private static final String MY_MUSIC_BUTTON = "//a[@data-l='t,library']//*[text()='Моя музыка']//..";
+    private static final String FOR_YOU_BUTTON = "//a[@data-tsid='showcase']";
+    private static final String MY_MUSIC_BUTTON = "//a[@data-tsid='library']";
+    private static final String RADIO_BUTTON = "//a[@data-tsid='radio']";
+    private static final String COLLECTIONS_BUTTON = "//a[@data-tsid='collections']";
     private static final String MUSIC_TRACK = ".//wm-track[@data-tsid='track']";
     private static final String PLAYING_MUSIC_TITLE = "//wm-player-track//span[@class='name']";
     private static final String PLAYING_MUSIC_ARTIST = "//wm-player-track//span[@class='artist']";
@@ -25,7 +28,10 @@ public class MusicPage extends BasePage {
     }
 
     protected void check() {
+        $(byXpath(FOR_YOU_BUTTON)).shouldBe(Condition.visible.because("Не отображается кнопка Для вас"));
         $(byXpath(MY_MUSIC_BUTTON)).shouldBe(Condition.visible.because("Не отображается кнопка Моя музыка"));
+        $(byXpath(RADIO_BUTTON)).shouldBe(Condition.visible.because("Не отображается кнопка Радио"));
+        $(byXpath(COLLECTIONS_BUTTON)).shouldBe(Condition.visible.because("Не отображается кнопка Коллекции"));
     }
 
     public void searchMusic(String music) {
