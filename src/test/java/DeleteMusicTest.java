@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeleteMusicTest extends BaseTest {
 
-    private final User user = UserData.user;
+    private final User user = UserData.user1;
     private static MusicPage musicPage;
     private static final String musicToDelete = "Oshhh";
 
