@@ -17,9 +17,15 @@ public class LoginPage extends BasePage {
     }
 
     public MainPage login(User user) {
-        $(byXpath(LOGIN_FIELD)).setValue(user.getLogin());
-        $(byXpath(PASSWORD_FIELD)).setValue(user.getPassword());
-        $(byXpath(SUBMIT_BUTTON)).click();
+        $(byXpath(LOGIN_FIELD))
+                .shouldBe(Condition.visible.because("Не отображается поле для ввода логина"))
+                .setValue(user.getLogin());
+        $(byXpath(PASSWORD_FIELD))
+                .shouldBe(Condition.visible.because("Не отображается поле для ввода пароля"))
+                .setValue(user.getPassword());
+        $(byXpath(SUBMIT_BUTTON))
+                .shouldBe(Condition.visible.because("Не отображается кнопка входа"))
+                .click();
         return new MainPage();
     }
 

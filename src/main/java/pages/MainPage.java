@@ -17,7 +17,9 @@ public class MainPage extends BasePage {
     }
 
     public String getName() {
-        return $(byXpath(NAME_FIELD)).text();
+        return $(byXpath(NAME_FIELD))
+                .shouldBe(Condition.visible.because("Не отображаются имя и фамилия пользователя"))
+                .text();
     }
 
     public MusicPage goToMusic() {
@@ -28,9 +30,15 @@ public class MainPage extends BasePage {
     }
 
     public void logout() {
-        $(byXpath(TOOLBAR_MENU)).shouldBe(Condition.visible.because("Не отображается toolbar")).click();
-        $(byXpath(LOGOUT)).shouldBe(Condition.visible.because("Не отображается кнопка Выйти в меню")).click();
-        $(byXpath(SUBMIT_LOGOUT)).shouldBe(Condition.visible.because("Не отображается кнопка Выйти")).click();
+        $(byXpath(TOOLBAR_MENU))
+                .shouldBe(Condition.visible.because("Не отображается toolbar"))
+                .click();
+        $(byXpath(LOGOUT))
+                .shouldBe(Condition.visible.because("Не отображается кнопка Выйти в меню"))
+                .click();
+        $(byXpath(SUBMIT_LOGOUT))
+                .shouldBe(Condition.visible.because("Не отображается кнопка Выйти"))
+                .click();
     }
 
     protected void check() {
