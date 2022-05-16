@@ -6,11 +6,11 @@ import pages.LoginPage;
 import pages.MainPage;
 import utils.User;
 import utils.UserData;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginTest extends BaseTest {
 
@@ -26,7 +26,16 @@ public class LoginTest extends BaseTest {
     @MethodSource("getUsers")
     void loginTest(User user) {
         mainPage = loginPage.login(user);
-        assertEquals(mainPage.getName(), user.getName());
+
+//        assertEquals(mainPage.getName(), user.getName());
+
+        assertThat(mainPage.getName())
+                .withFailMessage("Имя юзера должно быть %s", user.getName())
+                .isEqualTo(user.getName());
+        assertThat(mainPage.getName())
+                .as("Проверяем имя юзера на главной странице")
+                .startsWith(user.getFirstName())
+                .endsWith(user.getLastName());
     }
 
     @AfterEach

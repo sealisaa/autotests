@@ -4,34 +4,36 @@ import com.codeborne.selenide.Condition;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 
+import org.openqa.selenium.By;
 import utils.User;
 
 public class LoginPage extends BasePage {
 
-    private static final String LOGIN_FIELD = "//input[@id='field_email']";
-    private static final String PASSWORD_FIELD = "//input[@id='field_password']";
-    private static final String SUBMIT_BUTTON = "//*[@class='login-form-actions']/input[@type='submit']";
+    private static final By LOGIN_FIELD = byXpath("//input[@id='field_email']");
+    private static final By PASSWORD_FIELD = byXpath("//input[@id='field_password']");
+    private static final By SUBMIT_BUTTON = byXpath("//*[@class='login-form-actions']/input[@type='submit']");
 
     public LoginPage() {
         check();
     }
 
+    @Override
+    protected void check() {
+        $(LOGIN_FIELD).shouldBe(Condition.visible.because("Не отображается поле для ввода логина"));
+        $(PASSWORD_FIELD).shouldBe(Condition.visible.because("Не отображается поле для ввода пароля"));
+        $(SUBMIT_BUTTON).shouldBe(Condition.visible.because("Не отображается кнопка входа"));
+    }
+
     public MainPage login(User user) {
-        $(byXpath(LOGIN_FIELD))
+        $(LOGIN_FIELD)
                 .shouldBe(Condition.visible.because("Не отображается поле для ввода логина"))
                 .setValue(user.getLogin());
-        $(byXpath(PASSWORD_FIELD))
+        $(PASSWORD_FIELD)
                 .shouldBe(Condition.visible.because("Не отображается поле для ввода пароля"))
                 .setValue(user.getPassword());
-        $(byXpath(SUBMIT_BUTTON))
+        $(SUBMIT_BUTTON)
                 .shouldBe(Condition.visible.because("Не отображается кнопка входа"))
                 .click();
         return new MainPage();
-    }
-
-    protected void check() {
-        $(byXpath(LOGIN_FIELD)).shouldBe(Condition.visible.because("Не отображается поле для ввода логина"));
-        $(byXpath(PASSWORD_FIELD)).shouldBe(Condition.visible.because("Не отображается поле для ввода пароля"));
-        $(byXpath(SUBMIT_BUTTON)).shouldBe(Condition.visible.because("Не отображается кнопка входа"));
     }
 }

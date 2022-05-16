@@ -6,6 +6,7 @@ import pages.MusicPage;
 import utils.User;
 import utils.UserData;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayMusicTest extends BaseTest {
@@ -24,7 +25,11 @@ public class PlayMusicTest extends BaseTest {
         MusicPage musicPage = mainPage.goToMusic();
         String music = "Oshhh";
         musicPage.playMusic(music);
-        assertTrue(musicPage.getPlayingMusicTitle().toLowerCase().contains(music.toLowerCase())
-                || musicPage.getPlayingMusicArtist().toLowerCase().contains(music.toLowerCase()));
+
+//        assertTrue(musicPage.getPlayingMusicTitle().toLowerCase().contains(music.toLowerCase())
+//                || musicPage.getPlayingMusicArtist().toLowerCase().contains(music.toLowerCase()));
+
+        assertThat(musicPage.getPlayingMusicTitle())
+                .isEqualToIgnoringCase(music);
     }
 }
