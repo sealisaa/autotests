@@ -32,10 +32,8 @@ public class AddManyMusicTest extends BaseTest {
     @Test
     void addMusicTest() {
         for (String musicTrack : music) {
-            musicPage.goToMyMusic();
             musicPage.addMusic(musicTrack);
         }
-        musicPage.goToMyMusic();
         List<String> myMusic = musicPage.getMyMusicTitles();
 
         assertThat(myMusic)

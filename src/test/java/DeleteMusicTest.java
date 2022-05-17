@@ -21,6 +21,7 @@ public class DeleteMusicTest extends BaseTest {
         LoginPage loginPage = new LoginPage();
         MainPage mainPage = loginPage.login(user);
         musicPage = mainPage.goToMusic();
+        musicPage.deleteAllMyMusic();
         musicPage.addMusic(musicToDelete);
     }
 
@@ -28,7 +29,6 @@ public class DeleteMusicTest extends BaseTest {
     void deleteMusicTest() {
         musicPage.deleteMusic(musicToDelete);
         List<String> myMusic = musicPage.getMyMusicTitles();
-
         assertThat(myMusic)
                 .doesNotContain(musicToDelete);
     }

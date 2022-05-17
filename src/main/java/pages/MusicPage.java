@@ -5,14 +5,12 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import utils.Music;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.codeborne.selenide.Selectors.byXpath;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 
 public class MusicPage extends BasePage {
     private static final By FOR_YOU_BUTTON = byXpath("//a[@data-tsid='showcase']");
@@ -28,6 +26,7 @@ public class MusicPage extends BasePage {
     private static final By MUSIC_ARTIST = byXpath(".//a[@data-tsid='track_artist']");
     private static final By DELETE_MUSIC_BUTTON = byXpath(".//wm-icon[@data-tsid='remove_track']");
     private static final By CLOSE_BUTTON = byXpath("//*[@id='music_layer_holder']/*[contains(@class, 'toolbar-layer_close')]");
+    private static final By ROLLBACK = byXpath("//span[text()='Восстановить']");
 
     public MusicPage() {
         check();
@@ -86,20 +85,10 @@ public class MusicPage extends BasePage {
                 .click();
     }
 
-    public List<Music> getMyMusic() {
-        List<Music> myMusic = new ArrayList<>();
-        ElementsCollection myMusicCollection = $$(MUSIC_TRACK);
-        myMusicCollection.shouldBe(CollectionCondition.sizeNotEqual(0).because("Ни одного трека не найдено"));
-        for (SelenideElement music : myMusicCollection) {
-            myMusic.add(new Music(getMusicTitle(music), getMusicArtist(music)));
-        }
-        return myMusic;
-    }
-
     public List<String> getMyMusicTitles() {
+        goToMyMusic();
         List<String> titles = new ArrayList<>();
         ElementsCollection myMusicCollection = $$(MUSIC_TRACK);
-//        myMusicCollection.shouldBe(CollectionCondition.sizeNotEqual(0).because("Ни одного трека не найдено"));
         for (SelenideElement music : myMusicCollection) {
             titles.add(getMusicTitle(music));
         }
@@ -143,6 +132,10 @@ public class MusicPage extends BasePage {
                         .$(DELETE_MUSIC_BUTTON)
                         .shouldBe(Condition.visible.because("Не отображается кнопка удаления музыки"))
                         .click();
+                music.hover();
+                $(ROLLBACK).shouldBe(Condition.visible.because("Музыка не удалилась"));
+                refresh();
+                $(MY_MUSIC_BUTTON).shouldBe(Condition.visible.because("Страница не обновилась"));
             }
         }
     }
