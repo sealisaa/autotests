@@ -37,6 +37,9 @@ public class AddMusicTest extends BaseTest {
         softly.assertThat(myMusic)
                 .as("Проверяем, что добавилась нужная песня")
                 .contains(music);
+        softly.assertThat(myMusic)
+                .as("Проверяем, что музыка добавилась один раз")
+                .hasSize(1);
         softly.assertAll();
     }
 
