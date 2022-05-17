@@ -80,7 +80,6 @@ public class MainPage extends BasePage {
         return new Post.PostBuilder()
                 .setAuthor(getLastPostAuthor())
                 .setText(getLastPostText())
-//                .setTime(getLastPostTime())
                 .setMusic(getLastPostMusic())
                 .build();
     }

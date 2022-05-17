@@ -7,7 +7,6 @@ import pages.MainPage;
 import utils.User;
 import utils.UserData;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,6 @@ public class LoginTest extends BaseTest {
     void loginTest(User user) {
         mainPage = loginPage.login(user);
 
-//        assertEquals(mainPage.getName(), user.getName());
-
         assertThat(mainPage.getName())
                 .withFailMessage("Имя юзера должно быть %s", user.getName())
                 .isEqualTo(user.getName());
@@ -46,8 +43,8 @@ public class LoginTest extends BaseTest {
     private static List<User> getUsers() {
         List<User> users = new ArrayList<>();
         users.add(UserData.user1);
-//        users.add(UserData.user2);
-//        users.add(UserData.user3);
+        users.add(UserData.user2);
+        users.add(UserData.user3);
         return users;
     }
 }

@@ -21,7 +21,7 @@ public class AddMusicTest extends BaseTest {
         LoginPage loginPage = new LoginPage();
         MainPage mainPage = loginPage.login(user);
         musicPage = mainPage.goToMusic();
-        musicPage.deleteMusic(music);
+        musicPage.deleteAllMyMusic();
     }
 
     @Test
@@ -42,6 +42,6 @@ public class AddMusicTest extends BaseTest {
 
     @AfterAll
     static void setDown() {
-        musicPage.deleteMusic(music);
+        musicPage.deleteAllMyMusic();
     }
 }
