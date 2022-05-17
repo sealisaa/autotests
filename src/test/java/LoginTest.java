@@ -43,8 +43,8 @@ public class LoginTest extends BaseTest {
     private static List<User> getUsers() {
         List<User> users = new ArrayList<>();
         users.add(UserData.user1);
-        users.add(UserData.user2);
-        users.add(UserData.user3);
+//        users.add(UserData.user2);
+//        users.add(UserData.user3);
         return users;
     }
 }
