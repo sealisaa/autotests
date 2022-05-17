@@ -23,6 +23,8 @@ public class MainPage extends BasePage {
     private static final By POST_TEXT = byXpath(".//*[contains(@class, 'media-text_cnt_tx')]");
     private static final By POST_TIME = byXpath(".//*[contains(@class, 'feed_date')]");
     private static final By POST_MUSIC = byXpath(".//a[contains(@class, 'track-with-cover_name')]/span");
+    private static final By FEED_MENU = byXpath("//*[@class='feed_menu']");
+    private static final By DELETE_POST = byXpath("//*[text()='Удалить заметку']");
 
     public MainPage() {
         check();
@@ -84,7 +86,12 @@ public class MainPage extends BasePage {
     }
 
     public void deleteLastPost() {
-        //дописать
+        $(FEED_MENU)
+                .shouldBe(Condition.visible.because("Не отображается меню поста"))
+                .hover();
+        $(DELETE_POST)
+                .shouldBe(Condition.visible.because("Не отображается кнопка Удалить пост"))
+                .click();
     }
 
     public String getMusicXpath(String music) {

@@ -38,8 +38,10 @@ public class AddManyMusicTest extends BaseTest {
         musicPage.goToMyMusic();
         List<String> myMusic = musicPage.getMyMusicTitles();
 
-        assertThat(myMusic).isNotEmpty();
-        assertThat(myMusic).containsExactly("Diet Mountain Dew", "Fluorescent Adolescent", "Oshhh");
+        assertThat(myMusic)
+                .isNotEmpty();
+        assertThat(myMusic)
+                .containsExactly("Diet Mountain Dew", "Fluorescent Adolescent", "Oshhh");
     }
 
     @AfterAll
