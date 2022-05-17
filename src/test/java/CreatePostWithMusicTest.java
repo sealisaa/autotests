@@ -10,19 +10,21 @@ import utils.User;
 import utils.UserData;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreatePostWithMusicTest extends BaseTest {
 
     private final User user = UserData.user1;
     private static MainPage mainPage;
+    private static MusicPage musicPage;
     private static final String music = "Oshhh";
-    private static final String text = "Это текст для теста";
+    private static final String text = "Текст для теста";
 
     @BeforeEach
     void setUp() {
         LoginPage loginPage = new LoginPage();
         mainPage = loginPage.login(user);
-        MusicPage musicPage = mainPage.goToMusic();
+        musicPage = mainPage.goToMusic();
         musicPage.deleteAllMyMusic();
         musicPage.addMusic(music);
         mainPage = musicPage.close();
@@ -32,13 +34,14 @@ public class CreatePostWithMusicTest extends BaseTest {
     void createPostWithMusicTest() {
         mainPage.createPost(music, text);
         Post post = new Post.PostBuilder()
-                .setAuthor(user.getName())
-                .setText(text)
-//                .setTime("00:24")
-                .setMusic(music)
+                .setAuthor("Другой автор")
+                .setText("Другой текст")
+                .setMusic("Другая песня")
                 .build();
 
-        assertThat(post).usingRecursiveComparison().isEqualTo(mainPage.getLastPost());
+        assertThat(post)
+                .usingRecursiveComparison()
+                .isEqualTo(mainPage.getLastPost());
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(mainPage.getLastPostAuthor())
@@ -46,14 +49,17 @@ public class CreatePostWithMusicTest extends BaseTest {
                 .isEqualTo(user.getName());
         softly.assertThat(mainPage.getLastPostText())
                 .as("Проверяем текст поста")
-                .isGreaterThan(text);
+                .isEqualTo(text);
         softly.assertThat(mainPage.getLastPostMusic())
                 .as("Проверяем музыку в посте")
-                .isEqualTo("music");
+                .isEqualTo(music);
         softly.assertAll();
     }
 
     @AfterAll
     static void setDown() {
+        mainPage.deleteLastPost();
+        musicPage = mainPage.goToMusic();
+        musicPage.deleteAllMyMusic();
     }
 }

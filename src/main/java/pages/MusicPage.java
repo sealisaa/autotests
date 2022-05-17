@@ -69,6 +69,7 @@ public class MusicPage extends BasePage {
     }
 
     public void addMusic(String music) {
+        goToMyMusic();
         searchMusic(music);
         $$(MUSIC_TRACK)
                 .shouldBe(CollectionCondition.sizeNotEqual(0).because("Ни одного трека не найдено"))
@@ -98,7 +99,7 @@ public class MusicPage extends BasePage {
     public List<String> getMyMusicTitles() {
         List<String> titles = new ArrayList<>();
         ElementsCollection myMusicCollection = $$(MUSIC_TRACK);
-        myMusicCollection.shouldBe(CollectionCondition.sizeNotEqual(0).because("Ни одного трека не найдено"));
+//        myMusicCollection.shouldBe(CollectionCondition.sizeNotEqual(0).because("Ни одного трека не найдено"));
         for (SelenideElement music : myMusicCollection) {
             titles.add(getMusicTitle(music));
         }

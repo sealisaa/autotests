@@ -8,7 +8,6 @@ import utils.UserData;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DeleteMusicTest extends BaseTest {
@@ -30,10 +29,7 @@ public class DeleteMusicTest extends BaseTest {
         musicPage.deleteMusic(musicToDelete);
         List<String> myMusic = musicPage.getMyMusicTitles();
 
-//        assertTrue(musicPage.isMusicDeleted(musicToDelete));
-
         assertThat(myMusic)
-                .as("Проверяем, что трек удалился")
                 .doesNotContain(musicToDelete);
     }
 }

@@ -26,8 +26,7 @@ public class PlayMusicTest extends BaseTest {
         String music = "Oshhh";
         musicPage.playMusic(music);
 
-//        assertTrue(musicPage.getPlayingMusicTitle().toLowerCase().contains(music.toLowerCase())
-//                || musicPage.getPlayingMusicArtist().toLowerCase().contains(music.toLowerCase()));
+//        assertTrue(musicPage.getPlayingMusicTitle().equalsIgnoreCase(music));
 
         assertThat(musicPage.getPlayingMusicTitle())
                 .isEqualToIgnoringCase(music);

@@ -1,3 +1,4 @@
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,9 +9,6 @@ import utils.User;
 import utils.UserData;
 
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AddMusicTest extends BaseTest {
 
@@ -23,7 +21,7 @@ public class AddMusicTest extends BaseTest {
         LoginPage loginPage = new LoginPage();
         MainPage mainPage = loginPage.login(user);
         musicPage = mainPage.goToMusic();
-        musicPage.deleteAllMyMusic();
+        musicPage.deleteMusic(music);
     }
 
     @Test
@@ -32,15 +30,18 @@ public class AddMusicTest extends BaseTest {
         musicPage.goToMyMusic();
         List<String> myMusic = musicPage.getMyMusicTitles();
 
-//        assertTrue(musicPage.getAddedMusicTitle().toLowerCase().contains(music.toLowerCase())
-//                || musicPage.getAddedMusicArtist().toLowerCase().contains(music.toLowerCase()));
-
-        assertThat(myMusic).isNotEmpty();
-        assertThat(myMusic).contains(music);
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(myMusic)
+                .as("Проверяем, что Моя музыка содержит треки")
+                .isNotEmpty();
+        softly.assertThat(myMusic)
+                .as("Проверяем, что добавилась нужная песня")
+                .contains(music);
+        softly.assertAll();
     }
 
     @AfterAll
     static void setDown() {
-        musicPage.deleteAllMyMusic();
+        musicPage.deleteMusic(music);
     }
 }

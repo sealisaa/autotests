@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
@@ -38,9 +37,6 @@ public class AddManyMusicTest extends BaseTest {
         }
         musicPage.goToMyMusic();
         List<String> myMusic = musicPage.getMyMusicTitles();
-
-//        assertTrue(musicPage.getAddedMusicTitle().toLowerCase().contains(music.toLowerCase())
-//                || musicPage.getAddedMusicArtist().toLowerCase().contains(music.toLowerCase()));
 
         assertThat(myMusic).isNotEmpty();
         assertThat(myMusic).containsExactly("Diet Mountain Dew", "Fluorescent Adolescent", "Oshhh");
