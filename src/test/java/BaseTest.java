@@ -14,7 +14,7 @@ public abstract class BaseTest {
 
     @AfterAll
     static void close() {
-        closeWindow();
-        closeWebDriver();
+//        closeWindow();
+//        closeWebDriver();
     }
 }

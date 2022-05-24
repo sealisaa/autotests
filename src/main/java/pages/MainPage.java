@@ -1,8 +1,13 @@
 package pages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import utils.Post;
+import utils.PostWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.*;
@@ -19,12 +24,9 @@ public class MainPage extends BasePage {
     private static final By ADD_MUSIC_BUTTON = byXpath("//*[contains(@class, 'posting') and contains(@data-l, 'button.music')]");
     private static final By ADD_BUTTON = byXpath("//a[contains(@class,'button') and text()='Добавить']");
     private static final By SUBMIT_POSTING = byXpath("//*[contains(@class,'posting_submit')]");
-    private static final By POST_AUTHOR = byXpath(".//a[contains(@class, 'user-link')]");
-    private static final By POST_TEXT = byXpath(".//*[contains(@class, 'media-text_cnt_tx')]");
-    private static final By POST_TIME = byXpath(".//*[contains(@class, 'feed_date')]");
-    private static final By POST_MUSIC = byXpath(".//a[contains(@class, 'track-with-cover_name')]/span");
-    private static final By FEED_MENU = byXpath("//*[@class='feed_menu']");
-    private static final By DELETE_POST = byXpath("//*[text()='Удалить заметку']");
+    private static final By POST = byXpath(".//*[@class='feed']");
+
+    private final List<PostWrapper> posts = new ArrayList<>();
 
     public MainPage() {
         check();
@@ -74,23 +76,21 @@ public class MainPage extends BasePage {
                 .shouldBe(Condition.visible.because("Не отображается кнопка Поделиться"))
                 .click();
         refresh();
+        ElementsCollection postCollection = $$(POST);
+        for (SelenideElement post : postCollection) {
+            post
+                    .shouldBe(Condition.visible.because("Не отображается пост"));
+            posts.add(new PostWrapper(post));
+        }
     }
 
-    public Post getLastPost() {
-        return new Post.PostBuilder()
-                .setAuthor(getLastPostAuthor())
-                .setText(getLastPostText())
-                .setMusic(getLastPostMusic())
-                .build();
-    }
-
-    public void deleteLastPost() {
-        $(FEED_MENU)
-                .shouldBe(Condition.visible.because("Не отображается меню поста"))
-                .hover();
-        $(DELETE_POST)
-                .shouldBe(Condition.visible.because("Не отображается кнопка Удалить пост"))
-                .click();
+    public PostWrapper getPostByText(String text) {
+        for (PostWrapper post : posts) {
+            if (post.getText().equals(text)) {
+                return post;
+            }
+        }
+        return null;
     }
 
     public String getMusicXpath(String music) {
@@ -107,33 +107,5 @@ public class MainPage extends BasePage {
         $(SUBMIT_LOGOUT)
                 .shouldBe(Condition.visible.because("Не отображается кнопка Выйти"))
                 .click();
-    }
-
-    public String getLastPostAuthor() {
-        return $$(POST_AUTHOR)
-                .get(0)
-                .shouldBe(Condition.visible.because("Не отображается автор поста"))
-                .text();
-    }
-
-    public String getLastPostText() {
-        return $$(POST_TEXT)
-                .get(0)
-                .shouldBe(Condition.visible.because("Не отображается текст поста"))
-                .text();
-    }
-
-    public String getLastPostTime() {
-        return $$(POST_TIME)
-                .get(0)
-                .shouldBe(Condition.visible.because("Не отображается время поста"))
-                .text();
-    }
-
-    public String getLastPostMusic() {
-        return $$(POST_MUSIC)
-                .get(0)
-                .shouldBe(Condition.visible.because("Не отображается музыка в посте"))
-                .text();
     }
 }

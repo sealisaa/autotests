@@ -1,13 +1,11 @@
-import org.assertj.core.api.SoftAssertions;
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
 import pages.MainPage;
 import pages.MusicPage;
-import utils.Post;
-import utils.User;
-import utils.UserData;
+import utils.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -16,7 +14,7 @@ public class CreatePostWithMusicTest extends BaseTest {
     private final User user = UserData.user1;
     private static MainPage mainPage;
     private static MusicPage musicPage;
-    private static final String music = "Oshhh";
+    private static final String musicTitle = "Oshhh";
     private static final String text = "Текст для теста";
 
     @BeforeEach
@@ -25,40 +23,37 @@ public class CreatePostWithMusicTest extends BaseTest {
         mainPage = loginPage.login(user);
         musicPage = mainPage.goToMusic();
         musicPage.deleteAllMyMusic();
-        musicPage.addMusic(music);
+        SelenideElement searchResult = musicPage.searchMusic(musicTitle);
+        MusicWrapper musicTrack = new MusicWrapper(searchResult);
+        musicTrack.addToMyMusic();
         mainPage = musicPage.close();
     }
 
     @Test
     void createPostWithMusicTest() {
-        mainPage.createPost(music, text);
-        Post post = new Post.PostBuilder()
+        mainPage.createPost(musicTitle, text);
+        Post expectedPost = new Post.PostBuilder()
                 .setAuthor(user.getName())
                 .setText(text)
-                .setMusic(music)
+                .setMusic(musicTitle)
                 .build();
-
-        assertThat(post)
+        PostWrapper postWithText = mainPage.getPostByText(text);
+        assertThat(postWithText).isNotNull();
+        Post createdPost = new Post.PostBuilder()
+                .setAuthor(postWithText.getAuthor())
+                .setText(postWithText.getText())
+                .setMusic(postWithText.getMusicTitle())
+                .build();
+        assertThat(expectedPost)
                 .usingRecursiveComparison()
-                .isEqualTo(mainPage.getLastPost());
-
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(mainPage.getLastPostAuthor())
-                .as("Проверяем автора поста")
-                .isEqualTo(user.getName());
-        softly.assertThat(mainPage.getLastPostText())
-                .as("Проверяем текст поста")
-                .isEqualTo(text);
-        softly.assertThat(mainPage.getLastPostMusic())
-                .as("Проверяем музыку в посте")
-                .isEqualTo(music);
-        softly.assertAll();
+                .isEqualTo(createdPost);
     }
 
     @AfterAll
     static void setDown() {
-//        mainPage.deleteLastPost();
-//        musicPage = mainPage.goToMusic();
-//        musicPage.deleteAllMyMusic();
+        PostWrapper post = mainPage.getPostByText(text);
+        post.delete();
+        musicPage = mainPage.goToMusic();
+        musicPage.deleteAllMyMusic();
     }
 }

@@ -1,3 +1,4 @@
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
@@ -22,10 +23,10 @@ public class PlayMusicTest extends BaseTest {
     void playMusicTest() {
         MainPage mainPage = loginPage.login(user);
         MusicPage musicPage = mainPage.goToMusic();
-        String music = "Oshhh";
+        String musicTitle = "Oshhh";
+        SelenideElement music = musicPage.searchMusic(musicTitle);
         musicPage.playMusic(music);
-
         assertThat(musicPage.getPlayingMusicTitle())
-                .isEqualToIgnoringCase(music);
+                .isEqualToIgnoringCase(musicTitle);
     }
 }
