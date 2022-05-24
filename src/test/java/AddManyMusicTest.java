@@ -35,7 +35,6 @@ public class AddManyMusicTest extends BaseTest {
     @Test
     void addMusicTest() {
         for (String musicTitle : musicTitles) {
-            musicPage.goToMyMusic();
             SelenideElement searchResult = musicPage.searchMusic(musicTitle);
             MusicWrapper musicTrack = new MusicWrapper(searchResult);
             musicTrack.addToMyMusic();
